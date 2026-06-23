@@ -1,0 +1,237 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand Colors */
+    --color-red-deep: #A80C08;
+    --color-red-primary: #D22418;
+    --color-orange: #E85E2C;
+    --color-amber: #ED8A38;
+    --color-cream: #F6F1F1;
+    --color-rose-light: #D3A2A1;
+
+    /* Backgrounds */
+    --bg-page: #F6F1F1;
+    --bg-section-alt: #FFFFFF;
+    --bg-dark: #0C0C0C;
+    --bg-surface: #FFFFFF;
+    --bg-surface-muted: #F9F6F6;
+
+    /* Text */
+    --text-primary: #111111;
+    --text-secondary: #555555;
+    --text-muted: #888888;
+    --text-inverse: #FFFFFF;
+    --text-brand: #D22418;
+
+    /* Border */
+    --border-default: rgba(0, 0, 0, 0.07);
+    --border-strong: rgba(0, 0, 0, 0.15);
+    --border-brand: #D22418;
+    --border-muted: #D3A2A1;
+
+    /* Gradients */
+    --gradient-brand: linear-gradient(135deg, #D22418 0%, #E85E2C 55%, #ED8A38 100%);
+    --gradient-brand-dark: linear-gradient(135deg, #A80C08 0%, #C94E24 55%, #D4792E 100%);
+    --gradient-brand-ghost: linear-gradient(135deg, rgba(210, 36, 24, 0.04) 0%, rgba(237, 138, 56, 0.04) 100%);
+    --gradient-text: linear-gradient(135deg, #D22418 0%, #E85E2C 50%, #ED8A38 100%);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.10);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --shadow-brand: 0 4px 24px rgba(210, 36, 24, 0.25);
+    --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.04);
+
+    /* Typography */
+    --text-display-2xl: clamp(3rem, 6vw + 1rem, 5.5rem);
+    --text-display-xl: clamp(2.5rem, 5vw + 0.5rem, 4.5rem);
+    --text-display-lg: clamp(2rem, 4vw + 0.25rem, 3.5rem);
+
+    --text-h1: clamp(1.75rem, 3.5vw, 3rem);
+    --text-h2: clamp(1.5rem, 2.5vw, 2.25rem);
+    --text-h3: clamp(1.125rem, 2vw, 1.5rem);
+    --text-h4: clamp(1rem, 1.5vw, 1.125rem);
+
+    --text-body-xl: 1.25rem;
+    --text-body-lg: 1.125rem;
+    --text-body: 1rem;
+    --text-body-sm: 0.9375rem;
+
+    --text-label: 0.875rem;
+    --text-small: 0.8125rem;
+    --text-xs: 0.75rem;
+
+    --leading-none: 1;
+    --leading-tight: 1.15;
+    --leading-snug: 1.35;
+    --leading-normal: 1.6;
+    --leading-relaxed: 1.75;
+
+    --tracking-tighter: -0.03em;
+    --tracking-tight: -0.02em;
+    --tracking-normal: 0em;
+    --tracking-wide: 0.06em;
+    --tracking-wider: 0.12em;
+
+    /* Spacing */
+    --section-pt: clamp(64px, 8vw, 120px);
+    --section-pb: clamp(64px, 8vw, 120px);
+
+    /* Easing */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  [data-theme="dark"] {
+    --bg-page: #0D0D0D;
+    --bg-section-alt: #141414;
+    --bg-surface: #1A1A1A;
+    --bg-surface-muted: #202020;
+
+    --text-primary: #F0EDEC;
+    --text-secondary: #A09898;
+    --text-muted: #6A6363;
+
+    --border-default: rgba(255, 255, 255, 0.07);
+    --border-strong: rgba(255, 255, 255, 0.13);
+
+    --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-[var(--bg-page)] text-[var(--text-primary)] font-sans antialiased transition-colors duration-300;
+  }
+
+  /* Custom Focus Ring */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-brand-primary ring-offset-2 ring-offset-[var(--bg-page)];
+    border-radius: 4px;
+  }
+
+  [data-theme="dark"] *:focus-visible {
+    @apply ring-brand-orange;
+  }
+}
+
+@layer components {
+  .text-gradient {
+    background: var(--gradient-text);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .eyebrow {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--color-red-primary);
+  }
+
+  .btn-primary {
+    @apply bg-brand-primary text-white shadow-[0_4px_24px_rgba(210,_36,_24,_0.25)] hover:bg-brand-deep hover:-translate-y-px transition-all active:bg-[#8B0A06] active:translate-y-0 disabled:opacity-45 disabled:cursor-not-allowed disabled:shadow-none;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border-[1.5px] border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white transition-all active:bg-brand-deep;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-text-primary hover:bg-black/5 dark:hover:bg-white/5 transition-all;
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-[14px] rounded-lg;
+  }
+
+  .btn-md {
+    @apply px-6 py-[13px] text-[15px] rounded-[10px];
+  }
+
+  .btn-lg {
+    @apply px-8 py-4 text-[16px] rounded-xl;
+  }
+
+  .btn-xl {
+    @apply px-10 py-[18px] text-[17px] rounded-xl;
+  }
+
+  .card {
+    @apply bg-[var(--bg-surface)] border border-[var(--border-default)] rounded-2xl p-6 md:p-7 shadow-[var(--shadow-card)] transition-all duration-300;
+  }
+
+  .card:hover {
+    @apply -translate-y-1 shadow-[0_12px_40px_rgba(0,_0,_0,_0.1)] border-brand-primary/20;
+  }
+
+  [data-theme="dark"] .card:hover {
+    @apply shadow-[0_12px_40px_rgba(0,_0,_0,_0.4)] border-brand-orange/30;
+  }
+
+  .input-field {
+    @apply w-full h-[48px] md:h-[52px] bg-[var(--bg-surface)] border-[1.5px] border-[var(--border-strong)] rounded-[10px] px-4 text-text-primary placeholder:text-text-muted transition-all;
+  }
+
+  .input-field:focus {
+    @apply border-brand-primary ring-0 shadow-[0_0_0_3px_rgba(210,_36,_24,_0.12)] outline-none;
+  }
+
+  .input-dark {
+    @apply bg-white/5 border-[1.5px] border-white/10 text-white placeholder:text-white/35 transition-all;
+  }
+
+  .input-dark:focus {
+    @apply border-brand-orange bg-white/10 ring-0 shadow-[0_0_0_3px_rgba(232,_94,_44,_0.15)] outline-none;
+  }
+
+  .quote-mark {
+    font-size: 80px;
+    font-weight: 800;
+    line-height: 0.7;
+    color: var(--color-red-primary);
+    opacity: 0.15;
+    font-family: Georgia, serif;
+    margin-bottom: -8px;
+    display: block;
+  }
+}
+
+@layer utilities {
+  .section-padding {
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  .container-custom {
+    @apply w-full max-w-[1280px] mx-auto px-4 md:px-8 lg:px-10;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+
+  .animate-marquee-reverse {
+    animation: marquee 35s linear infinite reverse;
+  }
+}
