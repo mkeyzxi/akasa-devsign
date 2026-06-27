@@ -7,6 +7,7 @@ import {Menu, X, Sun, Moon} from 'lucide-react'
 import {Button} from '@/components/ui/Button'
 import {cn} from '@/lib/utils'
 import {NavLink} from '@/types'
+import {usePathname} from 'next/navigation'
 
 const navLinks: NavLink[] = [
   {label: 'Tentang', href: '#about'},
@@ -22,6 +23,11 @@ export function Navbar() {
   const [activeSection, setActiveSection] = React.useState('')
   const {theme, setTheme} = useTheme()
   const [mounted, setMounted] = React.useState(false)
+  const pathname = usePathname()
+
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   React.useEffect(() => {
     setMounted(true)

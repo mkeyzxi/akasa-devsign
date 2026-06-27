@@ -1,7 +1,15 @@
+'use client';
+
 import * as React from 'react';
+import { usePathname } from 'next/navigation';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const pathname = usePathname();
+
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <footer className="bg-[#0C0C0C] pt-16 pb-8 border-t border-white/10 text-white/70">
