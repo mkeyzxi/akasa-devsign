@@ -90,8 +90,9 @@ export function ServicesSection() {
             size="lg"
             variant="gradient"
             onClick={() => {
-              const el = document.getElementById('contact')
-              if (el) window.scrollTo({top: el.offsetTop - 80, behavior: 'smooth'})
+              // const el = document.getElementById('contact')
+              // if (el) window.scrollTo({top: el.offsetTop - 80, behavior: 'smooth'})
+              window.open('https://wa.me/6281340152851', '_blank')
             }}
           >
             Konsultasi Gratis &rarr;
