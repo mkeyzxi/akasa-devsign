@@ -119,7 +119,7 @@ export function ContactSection() {
                     Terima kasih telah menghubungi kami. Tim kami akan segera merespon pesan Anda.
                   </p>
                   <Button 
-                    variant="outline" 
+                    variant="secondary" 
                     className="mt-4"
                     onClick={() => setIsSuccess(false)}
                   >
