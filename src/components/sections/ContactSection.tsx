@@ -72,7 +72,7 @@ export function ContactSection() {
                 <div>
                   <h4 className="font-bold text-text-primary mb-1">Telepon / WhatsApp</h4>
                   <p className="text-sm text-text-secondary mb-1">
-                    Senin - Jumat, 09:00 - 22:00 WITA.
+                    Senin - Sabtu, 09:00 - 22:00 WITA.
                   </p>
                   <a
                     href="https://wa.me/6285342181132"
@@ -118,11 +118,7 @@ export function ContactSection() {
                   <p className="text-text-secondary max-w-[300px]">
                     Terima kasih telah menghubungi kami. Tim kami akan segera merespon pesan Anda.
                   </p>
-                  <Button 
-                    variant="secondary" 
-                    className="mt-4"
-                    onClick={() => setIsSuccess(false)}
-                  >
+                  <Button variant="secondary" className="mt-4" onClick={() => setIsSuccess(false)}>
                     Kirim Pesan Lagi
                   </Button>
                 </div>
@@ -202,12 +198,7 @@ export function ContactSection() {
                     />
                   </div>
 
-                  <Button
-                    type="submit"
-                    size="lg"
-                    disabled={isSubmitting}
-                    className="w-full mt-2"
-                  >
+                  <Button type="submit" size="lg" disabled={isSubmitting} className="w-full mt-2">
                     {isSubmitting ? (
                       <>
                         Mengirim... <Loader2 className="w-4 h-4 ml-2 animate-spin" />
