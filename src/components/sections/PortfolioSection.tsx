@@ -5,24 +5,38 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
-import { portfolio } from '@/data/portfolio';
 import Image from 'next/image';
+import Link from 'next/link';
+import useSWR from 'swr';
 
-const categories = [
-  { id: 'all', label: 'Semua' },
-  { id: 'web', label: 'Web' },
-  { id: 'mobile', label: 'Mobile' },
-  { id: 'uiux', label: 'UI/UX' },
-  { id: 'branding', label: 'Branding' },
-];
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function PortfolioSection() {
   const [activeCategory, setActiveCategory] = React.useState('all');
+  
+  const { data: portfolio = [], error } = useSWR('/api/portfolio', fetcher);
+
+  const categories = React.useMemo(() => {
+    const cats = [{ id: 'all', label: 'Semua' }];
+    const uniqueCats = new Map();
+    
+    if (Array.isArray(portfolio)) {
+      portfolio.forEach((item: any) => {
+        if (item.category && !uniqueCats.has(item.category.id)) {
+          uniqueCats.set(item.category.id, true);
+          cats.push({ id: item.category.slug, label: item.category.name });
+        }
+      });
+    }
+    
+    return cats;
+  }, [portfolio]);
 
   const filteredPortfolio = React.useMemo(() => {
-    if (activeCategory === 'all') return portfolio;
-    return portfolio.filter(item => item.category === activeCategory);
-  }, [activeCategory]);
+    if (!Array.isArray(portfolio)) return [];
+    if (activeCategory === 'all') return portfolio.filter((p: any) => p.featured);
+    return portfolio.filter((item: any) => item.category?.slug === activeCategory);
+  }, [activeCategory, portfolio]);
 
   return (
     <section id="portfolio" className="section-padding bg-[var(--bg-section-alt)]">
@@ -51,52 +65,66 @@ export function PortfolioSection() {
           </div>
         </div>
 
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          <AnimatePresence mode="popLayout">
-            {filteredPortfolio.map((item) => (
-              <motion.div
-                key={item.id}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3 }}
-                className="group relative rounded-2xl overflow-hidden bg-[var(--bg-surface)] border border-[var(--border-default)] shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow"
-              >
-                <div className="aspect-[4/3] relative overflow-hidden bg-[#F0EDE8] dark:bg-[#1A1A1A]">
-                  <Image
-                    src={item.thumbnail}
-                    alt={item.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                    <Button variant="secondary" className="border-white text-white hover:bg-white hover:text-black">
-                      Lihat Detail &rarr;
-                    </Button>
+        {error ? (
+          <div className="text-center py-20 text-red-500">
+            <p>Gagal memuat data portofolio.</p>
+          </div>
+        ) : portfolio.length === 0 ? (
+          <div className="text-center py-20 text-text-muted flex items-center justify-center">
+            <p>Memuat portofolio...</p>
+          </div>
+        ) : (
+          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <AnimatePresence mode="popLayout">
+              {filteredPortfolio.map((item: any) => (
+                <motion.div
+                  key={item.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3 }}
+                  className="group relative rounded-2xl overflow-hidden bg-[var(--bg-surface)] border border-[var(--border-default)] shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow"
+                >
+                  <div className="aspect-[4/3] relative overflow-hidden bg-[#F0EDE8] dark:bg-[#1A1A1A]">
+                    <Image
+                      src={item.thumbnail || '/placeholder.png'}
+                      alt={item.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                      <Link href={`/projects/${item.slug}`}>
+                        <Button variant="secondary" className="border-white text-white hover:bg-white hover:text-black">
+                          Lihat Detail &rarr;
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="p-6 relative bg-[var(--bg-surface)]">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Badge variant="neutral">{item.client}</Badge>
-                    <span className="text-xs text-text-muted font-medium">{item.year}</span>
+                  
+                  <div className="p-6 relative bg-[var(--bg-surface)]">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Badge variant="neutral">{item.client || item.category?.name}</Badge>
+                      {item.year && <span className="text-xs text-text-muted font-medium">{item.year}</span>}
+                    </div>
+                    <Link href={`/projects/${item.slug}`}>
+                      <h3 className="text-lg font-bold text-text-primary mb-2 line-clamp-1 group-hover:text-brand-primary transition-colors">
+                        {item.title}
+                      </h3>
+                    </Link>
+                    <p className="text-sm text-text-secondary line-clamp-2">
+                      {item.description}
+                    </p>
                   </div>
-                  <h3 className="text-lg font-bold text-text-primary mb-2 line-clamp-1 group-hover:text-brand-primary transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-text-secondary line-clamp-2">
-                    {item.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        )}
 
-        {filteredPortfolio.length === 0 && (
+        {Array.isArray(portfolio) && portfolio.length > 0 && filteredPortfolio.length === 0 && (
           <div className="text-center py-20 text-text-muted">
             <p>Belum ada proyek di kategori ini.</p>
           </div>

@@ -32,7 +32,7 @@ export function HeroSection() {
         />
 
         {/* Static ambient glow */}
-        <div className="absolute -top-[20%] -right-[10%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full blur-[80px] bg-gradient-to-br from-brand-primary/15 via-brand-orange/8 to-transparent" />
+        <div className="absolute -top-[20%] -right-[10%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px]  rounded-full blur-[80px] bg-gradient-to-br from-brand-primary/15 via-brand-orange/8 to-transparent" />
 
         {/* Static decorative shape */}
         <div className="absolute top-[10%] right-[5%] w-[35vw] h-[35vw] max-w-[450px] max-h-[450px] bg-gradient-to-br from-brand-primary/8 to-transparent rounded-tl-[100px] rounded-br-[100px] border border-[var(--border-default)]" />
@@ -43,27 +43,29 @@ export function HeroSection() {
           {/* Left: Text Content */}
           <div className="max-w-2xl text-left">
             <motion.div
-              initial={{opacity: 0, scale: 0.95}}
-              animate={{opacity: 1, scale: 1}}
-              transition={{duration: 0.5, ease: 'easeOut'}}
-              className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[var(--bg-surface)] border border-[var(--border-strong)] shadow-[var(--shadow-sm)] mb-8 relative overflow-hidden group cursor-default"
+              initial={{opacity: 0, x: -20}}
+              animate={{opacity: 1, x: 0}}
+              transition={{duration: 0.6, ease: [0.16, 1, 0.3, 1]}}
+              className="mb-8"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-brand-primary/10 to-brand-orange/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <span className="relative flex h-2.5 w-2.5 z-10">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-primary"></span>
-              </span>
-              <span className="text-sm font-semibold tracking-wide text-[var(--text-primary)] z-10">
-                Akasa Devsign{' '}
-                <span className="text-[var(--text-muted)] font-medium">Creative Agency</span>
-              </span>
+              <div className="flex items-center gap-4">
+                <span className="block w-12 h-[3px] rounded-full bg-gradient-to-r from-brand-primary to-brand-amber" />
+                <div className="flex items-baseline gap-2.5">
+                  <span className="text-lg md:text-xl font-extrabold text-gradient tracking-tight">
+                    Akasa Devsign
+                  </span>
+                  <span className="text-[11px] md:text-xs uppercase tracking-[0.2em] font-semibold text-[var(--text-muted)]">
+                    Creative Agency
+                  </span>
+                </div>
+              </div>
             </motion.div>
 
             <motion.h1
               initial={{opacity: 0, y: 30}}
               animate={{opacity: 1, y: 0}}
               transition={{duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1]}}
-              className="text-[var(--text-display-lg)] md:text-[var(--text-display-xl)] lg:text-[var(--text-display-2xl)] font-extrabold text-[var(--text-primary)] leading-[1.1] tracking-tight mb-6"
+              className="text-[clamp(1.5rem,3vw+0.5rem,2.25rem)] md:text-[clamp(1.75rem,3.5vw+0.5rem,2.75rem)] lg:text-[clamp(2rem,4vw+0.5rem,3.25rem)] font-extrabold text-[var(--text-primary)] leading-[1.2] tracking-tight mb-6"
             >
               Bridging Visual Aesthetics <br className="hidden md:block" />
               with <span className="text-gradient">Powerful Code.</span>
@@ -115,36 +117,108 @@ export function HeroSection() {
             initial={{opacity: 0, x: 50}}
             animate={{opacity: 1, x: 0}}
             transition={{duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1]}}
-            className="relative hidden lg:block h-[600px] w-full"
+            className="relative hidden lg:block h-[550px] w-full"
           >
-            {/* Geometric / Code Representation */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-brand-primary/10 to-transparent rounded-[2rem] border border-[var(--border-default)] bg-[var(--bg-surface-muted)] overflow-hidden flex items-center justify-center shadow-[var(--shadow-card)]">
-              <div className="absolute top-10 left-10 w-32 h-32 bg-brand-orange/20 rounded-full blur-2xl" />
-              <div className="absolute bottom-10 right-10 w-40 h-40 bg-brand-primary/20 rounded-full blur-2xl" />
+            {/* Ambient glow behind the card */}
+            <div className="absolute -inset-4 z-0 ">
+              <div className="absolute top-8 left-8 w-40 h-40 bg-brand-orange/25 rounded-full blur-[60px]" />
+              <div className="absolute bottom-12 right-8 w-48 h-48 bg-brand-primary/20 rounded-full blur-[70px]" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-brand-amber/15 rounded-full blur-[50px]" />
+            </div>
 
-              <div className="relative z-10 w-3/4 h-3/4 border border-[var(--border-strong)] rounded-2xl bg-[var(--bg-surface)]/70 backdrop-blur-md p-6 flex flex-col shadow-lg">
-                {/* <div className="flex gap-2 mb-4">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
+            {/* Main image card */}
+            <div className="absolute inset-0 z-10 rounded-[2rem] rounded-tl-[6rem] rounded-br-[6rem] overflow-hidden border border-[var(--border-strong)] shadow-[var(--shadow-card)]">
+              {/* Gradient border overlay */}
+              <div
+                className="absolute inset-0 z-20 rounded-[2rem] pointer-events-none"
+                style={{
+                  background:
+                    'linear-gradient(135deg, rgba(210,36,24,0.15) 0%, transparent 40%, transparent 60%, rgba(237,138,56,0.12) 100%)',
+                }}
+              />
+
+              {/* The hero image */}
+              <Image
+                src="/bg-hero.jpeg"
+                alt="Akasa Devsign — Creative Digital Agency"
+                fill
+                priority
+                className="object-cover object-top"
+                quality={90}
+              />
+
+              {/* Soft brand overlay on the image */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10" />
+
+              {/* Bottom info bar on image */}
+              <div className="absolute bottom-0 left-0 right-0 z-20 p-6 ">
+                <div className="flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-[var(--bg-surface)]/80 backdrop-blur-xl border border-[var(--border-default)] shadow-lg">
+                  <div className="flex -space-x-2">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-primary to-brand-orange flex items-center justify-center text-white text-xs font-bold ring-2 ring-white/20">
+                      A
+                    </div>
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-orange to-brand-amber flex items-center justify-center text-white text-xs font-bold ring-2 ring-white/20">
+                      D
+                    </div>
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-amber to-brand-primary flex items-center justify-center text-white text-xs font-bold ring-2 ring-white/20">
+                      S
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-[var(--text-primary)] truncate">
+                      Akasa Devsign Team
+                    </p>
+                    <p className="text-xs text-[var(--text-muted)]">Design • Develop • Deploy</p>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-xs font-semibold text-green-600 dark:text-green-400">
+                      Available
+                    </span>
+                  </div>
                 </div>
-                <div className="flex-1 space-y-4">
-                  <div className="h-4 w-1/3 bg-[var(--border-strong)] rounded" />
-                  <div className="h-4 w-3/4 bg-[var(--border-default)] rounded" />
-                  <div className="h-4 w-2/3 bg-[var(--border-default)] rounded" />
-                  <div className="h-4 w-1/2 bg-[var(--border-default)] rounded" />
-                  <div className="h-4 w-4/5 bg-[var(--border-default)] rounded" />
-                  <div className="mt-8 h-4 w-1/4 bg-brand-primary/40 rounded" />
+              </div>
+            </div>
+
+            {/* Floating accent card — top-right */}
+            <motion.div
+              initial={{opacity: 0, y: 20, rotate: 6}}
+              animate={{opacity: 1, y: 0, rotate: 6}}
+              transition={{duration: 0.6, delay: 0.7, ease: [0.16, 1, 0.3, 1]}}
+              className="absolute -right-6 top-8 z-30 px-5 py-4 rounded-2xl bg-[var(--bg-surface)]/90 backdrop-blur-xl border border-[var(--border-strong)] shadow-lg"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-primary to-brand-orange flex items-center justify-center shadow-[var(--shadow-brand)]">
+                  <span className="text-white font-bold text-sm">{'</>'}</span>
                 </div>
-                 */}
-
-                <Image src="/bg-hero.jpeg" alt="Hero" fill className="object-cover" />
+                <div>
+                  <p className="text-xs text-[var(--text-muted)] font-medium">Clean Code</p>
+                  <p className="text-sm font-bold text-[var(--text-primary)]">Modern Stack</p>
+                </div>
               </div>
+            </motion.div>
 
-              {/* Floating element */}
-              <div className="absolute -right-8 top-1/4 w-24 h-24 bg-gradient-to-br from-brand-orange to-brand-primary rounded-2xl rotate-12 shadow-[var(--shadow-brand)] flex items-center justify-center border border-white/20 animate-float">
-                <span className="text-white font-bold text-3xl">{'</>'}</span>
+            {/* Floating accent card — bottom-left */}
+            <motion.div
+              initial={{opacity: 0, y: 20, rotate: -3}}
+              animate={{opacity: 1, y: 0, rotate: -3}}
+              transition={{duration: 0.6, delay: 0.9, ease: [0.16, 1, 0.3, 1]}}
+              className="absolute -left-4 bottom-20 z-30 px-5 py-4 rounded-2xl bg-[var(--bg-surface)]/90 backdrop-blur-xl border border-[var(--border-strong)] shadow-lg"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-amber to-brand-orange flex items-center justify-center">
+                  <span className="text-white text-lg">★</span>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--text-muted)] font-medium">Completed</p>
+                  <p className="text-sm font-bold text-[var(--text-primary)]">50+ Projects</p>
+                </div>
               </div>
+            </motion.div>
+
+            {/* Decorative rotating ring */}
+            <div className="absolute -bottom-6 -right-6 w-28 h-28 z-0 opacity-20 animate-[spin_20s_linear_infinite]">
+              <div className="w-full h-full rounded-full border-2 border-dashed border-brand-primary/50" />
             </div>
           </motion.div>
         </div>
