@@ -1,7 +1,28 @@
-import {NextAuthOptions} from 'next-auth'
+import {NextAuthOptions, DefaultSession} from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import {PrismaAdapter} from '@auth/prisma-adapter'
+import {Adapter} from 'next-auth/adapters'
 import prisma from '@/lib/prisma'
+
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      id: string
+      isAdmin: boolean
+    } & DefaultSession['user']
+  }
+
+  interface User {
+    isAdmin?: boolean
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    id: string
+    isAdmin: boolean
+  }
+}
 
 const ALLOWED_EMAILS = [
   'muhmakbul6@gmail.com',
@@ -10,7 +31,7 @@ const ALLOWED_EMAILS = [
 ]
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma) as any,
+  adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
@@ -46,8 +67,8 @@ export const authOptions: NextAuthOptions = {
     },
     async session({session, token}) {
       if (session.user) {
-        ;(session.user as any).isAdmin = token.isAdmin
-        ;(session.user as any).id = token.id
+        session.user.isAdmin = token.isAdmin
+        session.user.id = token.id
       }
       return session
     },
